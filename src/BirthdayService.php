@@ -17,9 +17,9 @@ class BirthdayService
         $this->employeeRepository = $employeeRepository;
     }
 
-    public function sendGreetings($fileName, XDate $xDate, $smtpHost, $smtpPort)
+    public function sendGreetings(XDate $xDate, $smtpHost, $smtpPort)
     {
-        $employeeWithBirthdayToday = $this->employeeRepository->findEmployeeWithBirthday($fileName, $xDate);
+        $employeeWithBirthdayToday = $this->employeeRepository->findEmployeeWithBirthday($xDate);
 
         foreach($employeeWithBirthdayToday as $employee){
             $recipient = $employee->getEmail();
