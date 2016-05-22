@@ -7,10 +7,19 @@ class BirthdayService
      */
     private $mailer;
 
+    /**
+     * @var EmployeeRepository
+     */
+    private $employeeRepository;
+
+    public function __construct(EmployeeRepository $employeeRepository)
+    {
+        $this->employeeRepository = $employeeRepository;
+    }
+
     public function sendGreetings($fileName, XDate $xDate, $smtpHost, $smtpPort)
     {
-        $employeeRepository = new EmployeeRepository();
-        $employeeWithBirthdayToday = $employeeRepository->findEmployeeWithBirthday($fileName, $xDate);
+        $employeeWithBirthdayToday = $this->employeeRepository->findEmployeeWithBirthday($fileName, $xDate);
 
         foreach($employeeWithBirthdayToday as $employee){
             $recipient = $employee->getEmail();
