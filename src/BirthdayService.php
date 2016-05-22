@@ -9,7 +9,8 @@ class BirthdayService
 
     public function sendGreetings($fileName, XDate $xDate, $smtpHost, $smtpPort)
     {
-        $employeeWithBirthdayToday = $this->findEmployeeWithBirthday($fileName, $xDate);
+        $employeeRepository = new EmployeeRepository();
+        $employeeWithBirthdayToday = $employeeRepository->findEmployeeWithBirthday($fileName, $xDate);
 
         foreach($employeeWithBirthdayToday as $employee){
             $recipient = $employee->getEmail();
@@ -40,28 +41,5 @@ class BirthdayService
     protected function doSendMessage(Swift_Message $msg)
     {
         $this->mailer->send($msg);
-    }
-
-    /**
-     * @param $fileName
-     * @param XDate $xDate
-     * @return array
-     */
-    private function findEmployeeWithBirthday($fileName, XDate $xDate)
-    {
-        $employeeWithBirthdayToday = [];
-
-        $fileHandler = fopen($fileName, 'r');
-        fgetcsv($fileHandler);
-
-        while ($employeeData = fgetcsv($fileHandler, null, ',')) {
-            $employeeData = array_map('trim', $employeeData);
-            $employee = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);
-            if ($employee->isBirthday($xDate)) {
-                $employeeWithBirthdayToday[] = $employee;
-            }
-        }
-
-        return $employeeWithBirthdayToday;
     }
 }
