@@ -19,17 +19,44 @@ class FileEmployeeRepository implements EmployeeRepository
     {
         $employeeWithBirthdayToday = [];
 
-        $fileHandler = fopen($this->fileName, 'r');
-        fgetcsv($fileHandler);
+        $fileHandler = $this->readEmployeeFile();
 
-        while ($employeeData = fgetcsv($fileHandler, null, ',')) {
-            $employeeData = array_map('trim', $employeeData);
-            $employee = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);
+        $employees = $this->getAllEmployees($fileHandler);
+
+        foreach ($employees as $employee) {
             if ($employee->isBirthday($xDate)) {
                 $employeeWithBirthdayToday[] = $employee;
             }
         }
 
         return $employeeWithBirthdayToday;
+    }
+
+    /**
+     * @return resource
+     */
+    private function readEmployeeFile()
+    {
+        $fileHandler = fopen($this->fileName, 'r');
+        fgetcsv($fileHandler);
+
+        return $fileHandler;
+    }
+
+    /**
+     * @param $fileHandler
+     *
+     * @return Employee[]
+     */
+    private function getAllEmployees($fileHandler)
+    {
+        $employees = [];
+
+        while ($employeeData = fgetcsv($fileHandler, null, ',')) {
+            $employeeData = array_map('trim', $employeeData);
+            $employees[] = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);
+        }
+
+        return $employees;
     }
 }
