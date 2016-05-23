@@ -14,30 +14,42 @@ class FileEmployeeRepository implements EmployeeRepository
     /**
      * @param XDate $xDate
      * @return array
+     *
+     * @throws EmployeeNotFoundException
      */
     public function findEmployeeWithBirthday(XDate $xDate)
     {
         $employeeWithBirthdayToday = [];
 
-        $fileHandler = $this->readEmployeeFile();
+        try {
+            $fileHandler = $this->readEmployeeFile();
 
-        $employees = $this->getAllEmployees($fileHandler);
+            $employees = $this->getAllEmployees($fileHandler);
 
-        foreach ($employees as $employee) {
-            if ($employee->isBirthday($xDate)) {
-                $employeeWithBirthdayToday[] = $employee;
+            foreach ($employees as $employee) {
+                if ($employee->isBirthday($xDate)) {
+                    $employeeWithBirthdayToday[] = $employee;
+                }
             }
+        }catch (Exception $e) {
+            throw new EmployeeNotFoundException($e->getMessage());
         }
-
         return $employeeWithBirthdayToday;
     }
 
     /**
      * @return resource
+     *
+     * @throws Exception
      */
     private function readEmployeeFile()
     {
         $fileHandler = fopen($this->fileName, 'r');
+
+        if (!$fileHandler) {
+            throw new Exception('Cannot Open file');
+        }
+
         fgetcsv($fileHandler);
 
         return $fileHandler;
@@ -45,8 +57,9 @@ class FileEmployeeRepository implements EmployeeRepository
 
     /**
      * @param $fileHandler
-     *
      * @return Employee[]
+     *
+     * @throws Exception
      */
     private function getAllEmployees($fileHandler)
     {
@@ -54,6 +67,11 @@ class FileEmployeeRepository implements EmployeeRepository
 
         while ($employeeData = fgetcsv($fileHandler, null, ',')) {
             $employeeData = array_map('trim', $employeeData);
+
+            if (empty($employeeData)) {
+                throw new Exception('Employee not found');
+            }
+
             $employees[] = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);
         }
 
