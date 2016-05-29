@@ -26,7 +26,7 @@ class AcceptanceTest extends PHPUnit_Framework_TestCase
 
         $this->service = new TestableBirthdayService(
             new FileEmployeeRepository(self::EMPLOYEE_FILENAME),
-            new EmailEmployeeNotifier('localhost', self::$SMTP_PORT)
+            new EmailGreetingsSender('localhost', self::$SMTP_PORT)
         );
 
         $this->service->setMessageHandler($messageHandler->bindTo($this));

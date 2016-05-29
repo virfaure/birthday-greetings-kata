@@ -1,7 +1,7 @@
 <?php
 
 
-class EmailEmployeeNotifier implements EmployeeNotifier
+class EmailGreetingsSender implements GreetingsSender
 {
     /** @var  BirthdayService : Just for test */
     private $service;
@@ -27,7 +27,7 @@ class EmailEmployeeNotifier implements EmployeeNotifier
      * @param $employee
      * @param $service
      */
-    public function notifyEmployee($employee, $service)
+    public function send($employee, $service)
     {
         $this->service = $service;
         $recipient = $employee->getEmail();

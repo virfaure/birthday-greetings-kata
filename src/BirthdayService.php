@@ -13,11 +13,11 @@ class BirthdayService
     private $employeeRepository;
 
     /**
-     * @var EmployeeNotifier
+     * @var GreetingsSender
      */
     private $employeeNotifier;
 
-    public function __construct(EmployeeRepository $employeeRepository, EmployeeNotifier $employeeNotifier)
+    public function __construct(EmployeeRepository $employeeRepository, GreetingsSender $employeeNotifier)
     {
         $this->employeeRepository = $employeeRepository;
         $this->employeeNotifier = $employeeNotifier;
@@ -28,7 +28,7 @@ class BirthdayService
         $employeeWithBirthdayToday = $this->employeeRepository->findEmployeeWithBirthday($xDate);
 
         foreach($employeeWithBirthdayToday as $employee){
-            $this->employeeNotifier->notifyEmployee($employee, $this);
+            $this->employeeNotifier->send($employee, $this);
         }
     }
 

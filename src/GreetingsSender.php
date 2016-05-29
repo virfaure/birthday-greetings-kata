@@ -1,10 +1,10 @@
 <?php
 
-interface EmployeeNotifier
+interface GreetingsSender
 {
     /**
      * @param $employee
      * @param $service => not needed, just for the tests
      */
-    public function notifyEmployee($employee, $service);
+    public function send($employee, $service);
 }
