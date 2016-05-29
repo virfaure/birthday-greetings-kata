@@ -1,7 +1,7 @@
 <?php
 
 
-class EmailEmployeeNotifier
+class EmailEmployeeNotifier implements EmployeeNotifier
 {
     /** @var  BirthdayService : Just for test */
     private $service;
@@ -10,7 +10,11 @@ class EmailEmployeeNotifier
      * @var Swift_Mailer
      */
     private $mailer;
+
+    /** @var string */
     private $smtpHost;
+
+    /** @var string */
     private $smtpPort;
 
     public function __construct($smtpHost, $smtpPort)
@@ -22,8 +26,6 @@ class EmailEmployeeNotifier
     /**
      * @param $employee
      * @param $service
-     * @internal param $smtpHost
-     * @internal param $smtpPort
      */
     public function notifyEmployee($employee, $service)
     {
