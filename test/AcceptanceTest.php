@@ -73,7 +73,7 @@ class TestableBirthdayService extends BirthdayService
         return $this;
     }
 
-    protected function doSendMessage(Swift_Message $msg)
+    public function doSendMessage(Swift_Message $msg)
     {
         $callable = $this->callback;
         $callable($msg);
