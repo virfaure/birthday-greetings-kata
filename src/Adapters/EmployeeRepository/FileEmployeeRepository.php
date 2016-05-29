@@ -1,5 +1,11 @@
 <?php
 
+namespace Adapters\EmployeeRepository;
+
+use Core\Employee;
+use Core\EmployeeNotFoundException;
+use Core\EmployeeRepository;
+use Core\XDate;
 
 class FileEmployeeRepository implements EmployeeRepository
 {
@@ -31,7 +37,7 @@ class FileEmployeeRepository implements EmployeeRepository
                     $employeeWithBirthdayToday[] = $employee;
                 }
             }
-        }catch (Exception $e) {
+        }catch (\Exception $e) {
             throw new EmployeeNotFoundException($e->getMessage());
         }
         return $employeeWithBirthdayToday;
@@ -40,14 +46,14 @@ class FileEmployeeRepository implements EmployeeRepository
     /**
      * @return resource
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function readEmployeeFile()
     {
         $fileHandler = fopen($this->fileName, 'r');
 
         if (!$fileHandler) {
-            throw new Exception('Cannot Open file');
+            throw new \Exception('Cannot Open file');
         }
 
         fgetcsv($fileHandler);
@@ -59,7 +65,7 @@ class FileEmployeeRepository implements EmployeeRepository
      * @param $fileHandler
      * @return Employee[]
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function getAllEmployees($fileHandler)
     {
@@ -69,7 +75,7 @@ class FileEmployeeRepository implements EmployeeRepository
             $employeeData = array_map('trim', $employeeData);
 
             if (empty($employeeData)) {
-                throw new Exception('Employee not found');
+                throw new \Exception('Employee not found');
             }
 
             $employees[] = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);

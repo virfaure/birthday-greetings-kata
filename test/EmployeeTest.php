@@ -1,5 +1,8 @@
 <?php
 
+use Core\Employee;
+use Core\XDate;
+
 class EmployeeTest extends PHPUnit_Framework_TestCase
 {
     /**

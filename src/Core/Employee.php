@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class Employee
 {
     /**
@@ -45,7 +47,7 @@ class Employee
         return $this->firstName;
     }
 
-    public function __toString() 
+    public function __toString()
     {
         return 'Employee ' . $this->firstName . ' ' . $this->lastName . ' <' . $this->email . '> born ' . $this->birthDate;
     }

@@ -1,5 +1,7 @@
 <?php
 
+use Core\XDate;
+
 class XDateTest extends PHPUnit_Framework_TestCase
 {
     /**

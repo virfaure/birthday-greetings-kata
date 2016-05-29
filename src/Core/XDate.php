@@ -1,5 +1,9 @@
 <?php
 
+namespace Core;
+
+use DateTime;
+
 class XDate
 {
     /**

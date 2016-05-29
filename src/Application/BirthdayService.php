@@ -1,5 +1,16 @@
 <?php
 
+namespace Application;
+
+use Core\EmployeeRepository;
+use Core\GreetingFactory;
+use Core\GreetingsSender;
+use Core\XDate;
+
+// Should not be here, just for the tests to pass
+use Swift_Mailer;
+use Swift_Message;
+
 class BirthdayService
 {
     /**

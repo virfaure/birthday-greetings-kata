@@ -1,5 +1,10 @@
 <?php
 
+use Adapters\EmployeeRepository\FileEmployeeRepository;
+use Adapters\GreetingsSender\EmailGreetingsSender;
+use Application\BirthdayService;
+use Core\XDate;
+
 class AcceptanceTest extends PHPUnit_Framework_TestCase
 {
     const EMPLOYEE_FILENAME = __DIR__ . '/resources/employee_data.txt';

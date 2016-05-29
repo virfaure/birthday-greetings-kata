@@ -1,5 +1,16 @@
 <?php
 
+namespace Adapters\GreetingsSender;
+
+use Core\Employee;
+use Core\Greetings;
+use Core\GreetingsSender;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+
+// should not be here, just for the tests
+use Application\BirthdayService;
 
 class EmailGreetingsSender implements GreetingsSender
 {
@@ -35,6 +46,11 @@ class EmailGreetingsSender implements GreetingsSender
         $this->sendGreeting('sender@here.com', $greeting, $recipient);
     }
 
+    /**
+     * @param $sender
+     * @param Greetings $greeting
+     * @param $recipient
+     */
     private function sendGreeting($sender, Greetings $greeting, $recipient)
     {
         // Create a mail session

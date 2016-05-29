@@ -1,7 +1,8 @@
 <?php
 
+namespace Core;
 
-class EmployeeNotFoundException extends Exception
+class EmployeeNotFoundException extends \Exception
 {
 
     /**
