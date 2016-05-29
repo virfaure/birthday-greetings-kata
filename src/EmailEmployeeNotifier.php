@@ -20,23 +20,24 @@ class EmailEmployeeNotifier
     }
 
     /**
-     * @param $smtpHost
-     * @param $smtpPort
      * @param $employee
+     * @param $service
+     * @internal param $smtpHost
+     * @internal param $smtpPort
      */
-    public function notifyEmployee($smtpHost, $smtpPort, $employee, $service)
+    public function notifyEmployee($employee, $service)
     {
         $this->service = $service;
         $recipient = $employee->getEmail();
         $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
         $subject = 'Happy Birthday!';
-        $this->sendMessage($smtpHost, $smtpPort, 'sender@here.com', $subject, $body, $recipient);
+        $this->sendMessage('sender@here.com', $subject, $body, $recipient);
     }
 
-    private function sendMessage($smtpHost, $smtpPort, $sender, $subject, $body, $recipient)
+    private function sendMessage($sender, $subject, $body, $recipient)
     {
         // Create a mail session
-        $this->mailer = Swift_Mailer::newInstance(Swift_SmtpTransport::newInstance($smtpHost, $smtpPort));
+        $this->mailer = Swift_Mailer::newInstance(Swift_SmtpTransport::newInstance($this->smtpHost, $this->smtpPort));
 
         // Construct the message
         $msg = Swift_Message::newInstance($subject);
