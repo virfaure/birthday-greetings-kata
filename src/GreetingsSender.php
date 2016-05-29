@@ -3,8 +3,10 @@
 interface GreetingsSender
 {
     /**
-     * @param $employee
+     * @param Employee $employee
+     * @param Greetings $greeting
      * @param $service => not needed, just for the tests
+     * @return
      */
-    public function send($employee, $service);
+    public function send(Employee $employee, Greetings $greeting, $service);
 }

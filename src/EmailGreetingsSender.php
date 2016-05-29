@@ -24,14 +24,14 @@ class EmailGreetingsSender implements GreetingsSender
     }
 
     /**
-     * @param $employee
+     * @param Employee $employee
+     * @param Greetings $greeting
      * @param $service
      */
-    public function send($employee, $service)
+    public function send(Employee $employee, Greetings $greeting, $service)
     {
         $this->service = $service;
         $recipient = $employee->getEmail();
-        $greeting = $this->getGreetingFor($employee);
         $this->sendGreeting('sender@here.com', $greeting, $recipient);
     }
 
@@ -50,17 +50,5 @@ class EmailGreetingsSender implements GreetingsSender
 
         // Send the message
         $this->service->doSendMessage($msg);
-    }
-
-    /**
-     * @param $employee
-     * @return Greetings
-     */
-    private function getGreetingFor($employee)
-    {
-        $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
-        $subject = 'Happy Birthday!';
-
-        return new Greetings($subject, $body);
     }
 }
