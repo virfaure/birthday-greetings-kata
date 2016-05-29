@@ -31,26 +31,36 @@ class EmailEmployeeNotifier implements EmployeeNotifier
     {
         $this->service = $service;
         $recipient = $employee->getEmail();
-        $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
-        $subject = 'Happy Birthday!';
-        $this->sendMessage('sender@here.com', $subject, $body, $recipient);
+        $greeting = $this->getGreetingFor($employee);
+        $this->sendGreeting('sender@here.com', $greeting, $recipient);
     }
 
-    private function sendMessage($sender, $subject, $body, $recipient)
+    private function sendGreeting($sender, Greetings $greeting, $recipient)
     {
         // Create a mail session
         $this->mailer = Swift_Mailer::newInstance(Swift_SmtpTransport::newInstance($this->smtpHost, $this->smtpPort));
 
         // Construct the message
-        $msg = Swift_Message::newInstance($subject);
+        $msg = Swift_Message::newInstance($greeting->getSubject());
         $msg
             ->setFrom($sender)
             ->setTo([$recipient])
-            ->setBody($body)
+            ->setBody($greeting->getBody())
         ;
 
         // Send the message
         $this->service->doSendMessage($msg);
     }
 
+    /**
+     * @param $employee
+     * @return Greetings
+     */
+    private function getGreetingFor($employee)
+    {
+        $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
+        $subject = 'Happy Birthday!';
+
+        return new Greetings($subject, $body);
+    }
 }
